@@ -1,0 +1,1 @@
+# shoping_admin_user
