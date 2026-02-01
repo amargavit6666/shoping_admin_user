@@ -1,0 +1,51 @@
+:root {
+    /* 60-30-10 Color Rule */
+    /* Admin controllable variables */
+    --color-base: #F9FAFB;
+    /* Base Background (60%) */
+    --color-surface: #FFFFFF;
+    /* Surface/Cards */
+    --color-secondary: #10B981;
+    /* Brand Green (30%) - Emerald 500 */
+    --color-secondary-dark: #059669;
+    /* Emerald 600 */
+    --color-accent: #F59E0B;
+    /* CTA/Highlights (10%) - Amber 500 */
+    --color-accent-hover: #D97706;
+    /* Amber 600 */
+
+    /* Text Colors */
+    --text-primary: #111827;
+    /* Gray 900 */
+    --text-secondary: #6B7280;
+    /* Gray 500 */
+    --text-inverse: #FFFFFF;
+
+    /* Status Colors */
+    --color-success: #10B981;
+    --color-error: #EF4444;
+    --color-warning: #F59E0B;
+    --color-info: #3B82F6;
+
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-full: 9999px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+    /* Transitions */
+    --transition-fast: 150ms ease-in-out;
+    --transition-normal: 300ms ease-in-out;
+}

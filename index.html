@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Maruti Mobile</title>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/root.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        body {
+            padding-bottom: 0;
+            background-color: #f3f4f6;
+        }
+
+        .admin-header {
+            background-color: #1f2937;
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .admin-nav {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.5rem;
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .admin-nav-item {
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            border-radius: 0.5rem;
+            background: #f9fafb;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .admin-nav-item:hover {
+            background: #e5e7eb;
+        }
+
+        .admin-nav-item.active {
+            background: var(--color-secondary);
+            color: white;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="admin-app">
+        <header class="admin-header flex justify-between items-center">
+            <h3><i class="fa-solid fa-shield-halved"></i> Admin</h3>
+            <div class="flex items-center gap-2">
+                <span class="text-xs text-white" style="opacity: 0.8;">Online</span>
+                <span id="status-indicator"
+                    style="width: 8px; height: 8px; background: #10B981; border-radius: 50%;"></span>
+            </div>
+        </header>
+
+        <!-- Admin Navigation -->
+        <nav class="admin-nav">
+            <div class="admin-nav-item active" onclick="switchAdminTab('dashboard')">
+                <i class="fa-solid fa-chart-pie"></i><br>Dash
+            </div>
+            <div class="admin-nav-item" onclick="switchAdminTab('products')">
+                <i class="fa-solid fa-box-open"></i><br>Items
+            </div>
+            <div class="admin-nav-item" onclick="switchAdminTab('categories')">
+                <i class="fa-solid fa-layer-group"></i><br>Cats
+            </div>
+            <div class="admin-nav-item" onclick="switchAdminTab('banners')">
+                <i class="fa-solid fa-images"></i><br>Banners
+            </div>
+            <div class="admin-nav-item" onclick="switchAdminTab('orders')">
+                <i class="fa-solid fa-clipboard-list"></i><br>Orders
+            </div>
+            <div class="admin-nav-item" onclick="switchAdminTab('reviews')">
+                <i class="fa-solid fa-star"></i><br>Reviews
+            </div>
+            <div class="admin-nav-item" onclick="switchAdminTab('settings')">
+                <i class="fa-solid fa-sliders"></i><br>Config
+            </div>
+        </nav>
+
+        <main class="container" style="padding-top: 1rem; padding-bottom: 2rem;">
+
+            <!-- Dashboard Tab -->
+            <div id="dashboard-tab" class="admin-tab">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div class="stat-card">
+                        <p class="text-xs text-secondary">Total Orders</p>
+                        <h2 id="stat-total-orders">0</h2>
+                    </div>
+                    <div class="stat-card">
+                        <p class="text-xs text-secondary">Revenue</p>
+                        <h2 id="stat-revenue" class="text-success">₹ 0</h2>
+                    </div>
+                </div>
+
+                <h4 style="margin-bottom: 0.5rem;">Recent Activity</h4>
+                <div class="card" style="padding: 1rem;">
+                    <p class="text-sm text-secondary">No recent activity.</p>
+                </div>
+            </div>
+
+            <!-- Products Tab -->
+            <div id="products-tab" class="admin-tab hidden">
+                <div class="flex justify-between items-center" style="margin-bottom: 1rem;">
+                    <h3>Products</h3>
+                    <button class="btn btn-primary btn-sm" onclick="showProductForm()"><i class="fa-solid fa-plus"></i>
+                        Add New</button>
+                </div>
+
+                <!-- Product Form -->
+                <div id="product-form-container" class="card hidden"
+                    style="padding: 1rem; margin-bottom: 1rem; background: #fff;">
+                    <h4 id="product-form-title">Add Product</h4>
+                    <input type="hidden" id="prod-id">
+
+                    <div class="input-group">
+                        <label class="input-label">Product Name</label>
+                        <input type="text" id="prod-name" class="input-field" placeholder="e.g. Smart Watch">
+                    </div>
+
+                    <div class="flex gap-2">
+                        <div class="input-group" style="flex:1">
+                            <label class="input-label">Price</label>
+                            <input type="number" id="prod-price" class="input-field" placeholder="999">
+                        </div>
+                        <div class="input-group" style="flex:1">
+                            <label class="input-label">MRP (Optional)</label>
+                            <input type="number" id="prod-mrp" class="input-field" placeholder="1999">
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <div class="input-group" style="flex:1">
+                            <label class="input-label">Category</label>
+                            <select id="prod-category" class="input-field">
+                                <option value="">Select Category</option>
+                            </select>
+                        </div>
+                        <div class="input-group" style="flex:1">
+                            <label class="input-label">Stock</label>
+                            <input type="number" id="prod-stock" class="input-field" value="10">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Image URL</label>
+                        <input type="text" id="prod-image" class="input-field" placeholder="https://..."
+                            onchange="previewImage('prod-image', 'prod-preview')">
+                        <img id="prod-preview" src=""
+                            style="max-height: 100px; display:none; margin-top: 0.5rem; border-radius: 4px;">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Description</label>
+                        <textarea id="prod-desc" class="input-field" rows="3"></textarea>
+                    </div>
+
+                    <div class="flex gap-2 justify-between">
+                        <button class="btn btn-outline" onclick="hideProductForm()">Cancel</button>
+                        <button class="btn btn-primary" onclick="saveProduct()">Save Product</button>
+                    </div>
+                </div>
+
+                <!-- Product List -->
+                <div class="input-group">
+                    <input type="text" id="search-products" class="input-field" placeholder="Search products..."
+                        onkeyup="filterProducts()">
+                </div>
+                <div id="product-list" class="flex-col gap-2">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Categories Tab (New) -->
+            <div id="categories-tab" class="admin-tab hidden">
+                <div class="flex justify-between items-center" style="margin-bottom: 1rem;">
+                    <h3>Categories</h3>
+                    <button class="btn btn-primary btn-sm" onclick="showCategoryForm()"><i class="fa-solid fa-plus"></i>
+                        Add</button>
+                </div>
+
+                <!-- Category Form -->
+                <div id="category-form-container" class="card hidden" style="padding: 1rem; margin-bottom: 1rem;">
+                    <h4 id="cat-form-title">Add Category</h4>
+                    <input type="hidden" id="cat-id">
+
+                    <div class="input-group">
+                        <label class="input-label">Category Name</label>
+                        <input type="text" id="cat-name" class="input-field">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Image URL</label>
+                        <input type="text" id="cat-image" class="input-field" placeholder="https://..."
+                            onchange="previewImage('cat-image', 'cat-preview')">
+                        <img id="cat-preview" src="" style="max-height: 50px; display:none; margin-top: 0.5rem;">
+                    </div>
+
+                    <div class="flex gap-2 justify-between">
+                        <button class="btn btn-outline" onclick="hideCategoryForm()">Cancel</button>
+                        <button class="btn btn-primary" onclick="saveCategory()">Save Category</button>
+                    </div>
+                </div>
+
+                <div id="category-list" class="flex-col gap-2">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Banners Tab -->
+            <div id="banners-tab" class="admin-tab hidden">
+                <div class="flex justify-between items-center" style="margin-bottom: 1rem;">
+                    <h3>Banners / Sliders</h3>
+                    <button class="btn btn-primary btn-sm" onclick="showBannerForm()"><i class="fa-solid fa-plus"></i>
+                        Add</button>
+                </div>
+
+                <div id="banner-form-container" class="card hidden" style="padding: 1rem; margin-bottom: 1rem;">
+                    <h4 id="banner-form-title">Add Banner</h4>
+                    <input type="hidden" id="banner-id">
+
+                    <div class="input-group">
+                        <label class="input-label">Image URL (Landscape preferred)</label>
+                        <input type="text" id="banner-image" class="input-field"
+                            onchange="previewImage('banner-image', 'banner-preview')">
+                        <img id="banner-preview" src=""
+                            style="width: 100%; height: 150px; object-fit: cover; display:none; margin-top: 0.5rem; border-radius: 4px;">
+                    </div>
+
+                    <div class="flex gap-2 justify-between">
+                        <button class="btn btn-outline" onclick="hideBannerForm()">Cancel</button>
+                        <button class="btn btn-primary" onclick="saveBanner()">Save Banner</button>
+                    </div>
+                </div>
+
+                <div id="banner-list" class="flex-col gap-2">
+                    <!-- Banner Items -->
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="orders-tab" class="admin-tab hidden">
+                <h3>Live Orders</h3>
+                <div class="flex gap-2" style="overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                    <button class="btn btn-sm btn-outline active" onclick="filterOrders('all')">All</button>
+                    <button class="btn btn-sm btn-outline" onclick="filterOrders('Pending')">Pending</button>
+                    <button class="btn btn-sm btn-outline" onclick="filterOrders('Shipped')">Shipped</button>
+                </div>
+                <div id="order-list" class="flex-col gap-2">
+                    <p class="text-center text-secondary">No active orders.</p>
+                </div>
+            </div>
+
+            <!-- Reviews Tab -->
+            <div id="reviews-tab" class="admin-tab hidden">
+                <h3>Review Moderation</h3>
+                <div id="reviews-list" class="flex-col gap-2">
+                    <p class="text-center text-secondary">Loading pending reviews...</p>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <!-- Settings Tab -->
+            <div id="settings-tab" class="admin-tab hidden">
+                <h3>App Configuration</h3>
+
+                <!-- Branding -->
+                <div class="card" style="padding: 1rem; margin-top: 1rem;">
+                    <h4>🎨 Branding & Appearance</h4>
+                    <div class="input-group">
+                        <label class="input-label">App Name</label>
+                        <input type="text" id="conf-app-name" class="input-field" placeholder="Maruti Mobile">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Logo URL</label>
+                        <input type="text" id="conf-logo" class="input-field" placeholder="https://..."
+                            onchange="document.getElementById('conf-logo-preview').src = this.value">
+                        <img id="conf-logo-preview" src=""
+                            style="width:50px; height:50px; object-fit:contain; display:none; margin-top:0.5rem;">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Primary Color</label>
+                        <div class="flex gap-2">
+                            <input type="color" id="color-primary" value="#10B981" class="input-field"
+                                style="height:40px; padding:0.2rem;">
+                            <input type="text" id="color-primary-text" value="#10B981" class="input-field">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-block" onclick="saveBrandingSettings()">Save Look & Feel</button>
+                </div>
+
+                <!-- Business Settings -->
+                <div class="card" style="padding: 1rem; margin-top: 1rem;">
+                    <h4>⚙️ Business Logic</h4>
+                    <div class="input-group">
+                        <label class="input-label">Admin WhatsApp Number (for orders)</label>
+                        <input type="text" id="conf-whatsapp" class="input-field" placeholder="919876543210">
+                    </div>
+
+                    <label class="flex items-center gap-2 mb-2">
+                        <input type="checkbox" id="conf-cod" checked> Enable Cash on Delivery
+                    </label>
+                    <label class="flex items-center gap-2 mb-2">
+                        <input type="checkbox" id="conf-online-pay"> Enable Online Payment (UI)
+                    </label>
+
+                    <div class="input-group mt-2">
+                        <label class="input-label">WhatsApp Message Template</label>
+                        <textarea id="conf-wa-template" class="input-field" rows="4"
+                            placeholder="Default template: 🛒 NEW ORDER..."></textarea>
+                        <small class="text-secondary">Use {name}, {phone}, {total}, {items} as placeholders.</small>
+                    </div>
+
+                    <button class="btn btn-primary btn-block" onclick="saveBusinessSettings()">Save Business
+                        Settings</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script src="js/firebase-config.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>
